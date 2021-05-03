@@ -1,4 +1,4 @@
-Jurassic-GPU-retrieval
+Jurassic-GPU-forward model
 
     based on JURASSIC by Lars Hoffmann
     this version is dedicated to host the GPU module for the EGA method within the forward model
