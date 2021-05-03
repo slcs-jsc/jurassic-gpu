@@ -16,4 +16,8 @@ How to build
     cd ..
     cd src
     make
+    cd ..
+    cd example/limb
+    ./run.sh
+    diff rad.tab rad.org
  
