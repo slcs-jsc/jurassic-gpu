@@ -40,8 +40,8 @@ CFEAFLAGS += -fopenmp
 CFEAFLAGS += -fno-common
 CFEAFLAGS += -fshort-enums
 CFEAFLAGS += -fno-omit-frame-pointer
-#CFEAFLAGS += -fno-finite-math-only
-CFEAFLAGS += -D DIRECTORY_WITH_GAS_NAME
+# CFEAFLAGS += -fno-finite-math-only
+# CFEAFLAGS += -D DIRECTORY_WITH_GAS_NAME
 CFEAFLAGS += -D SHOW_GIT_KEY=$(GITKEY)
 
 # Compiler optimization flags...
@@ -64,7 +64,9 @@ CFLAGS = -std=gnu99 $(INCDIR) -DHAVE_INLINE -DGSL_DISABLE_DEPRACTED $(COPTFLAGS)
 CUOPTFLAGS += -O3 -gencode arch=compute_70,code=sm_70 $(INCDIR)
 
 # CUDA Compiler flags...
-CUFLAGS = --use_fast_math $(CUOPTFLAGS) $(patsubst %,-Xcompiler %,$(FLAGS)) 
+CUFLAGS =
+CUFLAGS += --std=c++11
+CUFLAGS += --use_fast_math $(CUOPTFLAGS) $(patsubst %,-Xcompiler %,$(FLAGS)) 
 CUFLAGS += -Xptxas -v  
 CUFLAGS += -D RETURN_AFTER_INIT
 #CUFLAGS +=  -DGPUDEBUG  
