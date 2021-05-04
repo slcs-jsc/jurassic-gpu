@@ -19,4 +19,6 @@ NU[2] = 669.8110
 WRITE_BBT = 1
 
 # use the GPU: 0:never, 1:always, -1:if possible
-USEGPU = 0
+USEGPU = -1
+WRITE_BINARY = 0
+READ_BINARY = 0

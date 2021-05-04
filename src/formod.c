@@ -68,6 +68,8 @@ int main(
   /* Write radiance data... for reference */
   write_obs(".", argv[4], &ctl, obs);
 
+#ifdef BENCHMARK_FORMOD
+
   int const niterations = GSL_MAX(1, ctl.useGPU*ctl.useGPU);
   if (niterations > 1) printf("# always run %d iterations for benchmarking\n", niterations);
   
@@ -175,7 +177,9 @@ int main(
   
     } // scaling tests: modify the number of rays
   } // scaling tests: modify the number of channels
-  
+
+#endif // BENCHMARK_FORMOD
+
   /* Free... */
   free(obs_bench);
   free(ctl_bench);

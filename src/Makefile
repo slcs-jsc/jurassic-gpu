@@ -31,6 +31,7 @@ CU = nvcc
 # Check whether a CUDA compiler is available...
 ENABLEGPU = $(shell command -v $(CU) 2> /dev/null)
 
+
 # For reproducability compile the git key (hash) into the code
 GITKEY = $(shell git log | head -1 | sed -e 's/commit //g')
 
@@ -52,7 +53,7 @@ COPTFLAGS += -O3
 # COPTFLAGS += -pg
 # COPTFLAGS += -mtune=power8
 # COPTFLAGS += -mcpu=power8
-# COPTFLAGS= -O0 -mtune=power8 -mcpu=power8 -g -DGPUDEBUG
+# COPTFLAGS += -DGPUDEBUG
 
 CUOPTFLAGS += -D USE_UNIFIED_MEMORY_FOR_TABLES
 
@@ -60,37 +61,34 @@ CUOPTFLAGS += -D USE_UNIFIED_MEMORY_FOR_TABLES
 CFLAGS = -std=gnu99 $(INCDIR) -DHAVE_INLINE -DGSL_DISABLE_DEPRACTED $(COPTFLAGS) $(CERRFLAGS) $(CFEAFLAGS) -pedantic -Winline -Wall -W -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wno-long-long -Wfatal-errors -Wno-deprecated-declarations
 
 # CUDA Compiler optimization flags...
-## CUOPTFLAGS = -O3 -gencode arch=compute_60,code=sm_60 $(INCDIR) ## sm_60 for P100
-CUOPTFLAGS += -O3 -gencode arch=compute_70,code=sm_70 $(INCDIR)
+# CUOPTFLAGS += -gencode arch=compute_60,code=sm_60 $(INCDIR) ## sm_60 for P100
+CUOPTFLAGS += -gencode arch=compute_70,code=sm_70 $(INCDIR) ## sm_70 for V100
+# CUOPTFLAGS += -gencode arch=compute_80,code=sm_80 $(INCDIR) ## sm_80 for A100
 
 # CUDA Compiler flags...
 CUFLAGS =
 CUFLAGS += --std=c++11
 CUFLAGS += --use_fast_math $(CUOPTFLAGS) $(patsubst %,-Xcompiler %,$(FLAGS)) 
 CUFLAGS += -Xptxas -v  
-CUFLAGS += -D RETURN_AFTER_INIT
-#CUFLAGS +=  -DGPUDEBUG  
+# CUFLAGS += -DRETURN_AFTER_INIT
+# CUFLAGS += -DGPUDEBUG  
 
 # Linker flags...
 LDFLAGS = $(LIBDIR) -lgsl -lgslcblas -lm
 
 # Objects...
 OBJECTS = jurassic.o CPUdrivers.o
-ifdef ENABLEGPU
-	OBJECTS += GPUdrivers.o
-	CFEAFLAGS += -DhasGPU
-	LDFLAGS += -lcudart
-	### module CUDA/10.1.168 in JSC workstation cluster does not provide this path, why?
- 	## LIBDIR += -L /usr/local/zam/CUDA/cuda-10.1.168/lib64
- 	LIBDIR += -L $(CUDA_PATH)/lib64 
-	### furthermore it requires 
-	###      export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/zam/CUDA/cuda-10.1.168/lib64
-	### to run
-else
+
+ifeq ($(strip $(ENABLEGPU)),)
 	# Linking...
 	ifdef STATIC
 		CFLAGS += -static
 	endif
+else
+	OBJECTS += GPUdrivers.o
+	CFEAFLAGS += -DhasGPU
+	LDFLAGS += -lcudart
+ 	LIBDIR += -L $(CUDA_PATH)/lib64 
 endif
 
 # Dependencies...
@@ -121,12 +119,12 @@ $(EXC): %: %.c $(OBJECTS)
 # Generic rules for all object files...
 %.o:%.c %.d Makefile
 	$(CC) $(CFLAGS) -c $<
-ifdef ENABLEGPU
+
+ifeq ($(strip $(ENABLEGPU)),)
+	@echo "Warning: No CUDA compiler found!"
+else
 %.o:%.cu %.d Makefile
 	$(CU) $(CUFLAGS) -c $<
-else
-%.o:%.c %.d Makefile
-	$(CC) $(CFLAGS) -c $<
 endif
 
 # Dependency rules for correct building in case of changed .h files...
@@ -135,3 +133,8 @@ endif
 %.d:%.cu Makefile
 	$(CC) $(CFLAGS) -MM $< -MF $@
 -include $(DEP)
+
+show:
+	@echo "ENABLEGPU=" $(ENABLEGPU)
+
+

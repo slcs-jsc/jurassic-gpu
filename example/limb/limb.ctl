@@ -19,4 +19,6 @@ NU[0] = 792.0000
 NU[1] = 832.0000
 
 # use the GPU: 0:never, 1:always, -1:if possible
-USEGPU = 0
+USEGPU = -1
+WRITE_BINARY = 0
+READ_BINARY = 0
