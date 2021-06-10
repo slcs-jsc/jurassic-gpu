@@ -69,7 +69,7 @@ Please do not hesitate to contact us, if you have any further questions or need 
 
 ## License
 
-JURASSIC-GPU is distributed under the [GNU General Public License v3.0](https://github.com/slcs-jsc/mptrac/blob/jurassic-gpu/COPYING).
+JURASSIC-GPU is distributed under the [GNU General Public License v3.0](https://github.com/slcs-jsc/jurassic-gpu/blob/jurassic-gpu/COPYING).
 
 ## Contact
 
