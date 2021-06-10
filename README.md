@@ -8,7 +8,7 @@ The Juelich Rapid Spectral Simulation Code for GPUs (JURASSIC-GPU) is a fast inf
 [![code size in bytes](https://img.shields.io/github/languages/code-size/slcs-jsc/jurassic-gpu.svg)](https://github.com/slcs-jsc/jurassic-gpu/tree/master/src)
 [![top language](https://img.shields.io/github/languages/top/slcs-jsc/jurassic-gpu.svg)](https://github.com/slcs-jsc/jurassic-gpu/tree/master/src)
 [![license](https://img.shields.io/github/license/slcs-jsc/jurassic-gpu.svg)](https://github.com/slcs-jsc/jurassic-gpu/blob/master/COPYING)
-[![doi](https://zenodo.org/badge/DOI/10.5281/zenodo.4572889.svg)](https://doi.org/10.5281/zenodo.4572889)
+[![doi](https://zenodo.org/badge/DOI/10.5281/zenodo.4744174.svg)](https://doi.org/10.5281/zenodo.4744174)
 
 ## Features
 
