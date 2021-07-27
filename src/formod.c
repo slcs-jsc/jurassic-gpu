@@ -178,14 +178,16 @@ int main(
     } // scaling tests: modify the number of rays
   } // scaling tests: modify the number of channels
 
-  /* Free... */
-  free(obs_bench);
-  free(ctl_bench);
-
 #endif // BENCHMARK_FORMOD
 
-  free(atm);
-  free(obs);
-  
-  return EXIT_SUCCESS;
+  /* Free... */
+#ifdef BENCHMARK_FORMOD
+    free(obs_bench);
+    free(ctl_bench);
+#endif
+    
+    free(atm);
+    free(obs);
+    
+    return EXIT_SUCCESS;
 }

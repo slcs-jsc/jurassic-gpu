@@ -11,4 +11,5 @@ hash
 time2jsec
 memoryinfo
 
-
+*.d
+*.o

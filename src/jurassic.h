@@ -136,12 +136,12 @@ ERRMSG("Out of memory!");
 
 /*! Maximum number of radiance channels. */
 #ifndef ND
-  #define ND 32 
+  #define ND 100 
 #endif
 
 /*! Maximum number of emitters. */
 #ifndef NG
-  #define NG 27
+  #define NG 30
 #endif  
 
 /*! Maximum number of atmospheric data points. */
